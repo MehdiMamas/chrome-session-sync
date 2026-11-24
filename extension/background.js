@@ -119,7 +119,7 @@ const handlers = {
   async 'set-test-mode'(m) { await set({ testMode: Boolean(m.on) }); return { ok: true } },
   async 'save-hub'(m) {
     const hubUrl = normalizeHubUrl(m.hubUrl, (await get('testMode')).testMode)
-    if (!hubUrl) return { error: 'That is not a usable address. Use the hub\'s Tailscale name, for example hub.example.ts.net.' }
+    if (!hubUrl) return { error: 'That is not a usable address. Use the hub\'s HTTPS address, for example hub.example.ts.net.' }
     await set({ hubUrl })
 
     return { hubUrl }
