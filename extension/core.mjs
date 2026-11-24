@@ -5,6 +5,11 @@
 
 export const FORMAT = 1
 export const SESSION_DAYS = 7
+
+
+// Toolbar badge: a short alert for states that need attention, nothing otherwise.
+const BADGE_STATES = new Set(['offline', 'unauthorised', 'wrong-key', 'hub-error'])
+export const badgeText = state => (BADGE_STATES.has(state) ? '!' : '')
 export const TOMBSTONE_DAYS = 30
 const DAY = 86400000
 const enc = new TextEncoder()

@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { cookieKey, changeKind, decryptBlob, deriveKeys, encryptBlob, generateKeyString, isEcho, cookieHash, mergeEntries, normalizeHubUrl, normalizeSite, parseKeyString, planSync, toSetDetails, toStored, SESSION_DAYS } from '../extension/core.mjs'
+import { badgeText, cookieKey, changeKind, decryptBlob, deriveKeys, encryptBlob, generateKeyString, isEcho, cookieHash, mergeEntries, normalizeHubUrl, normalizeSite, parseKeyString, planSync, toSetDetails, toStored, SESSION_DAYS } from '../extension/core.mjs'
 
 const mk = async () => deriveKeys(parseKeyString(generateKeyString()))
 const ck = (name, value, domain = 'github.com', extra = {}) => ({ name, value, domain, path: '/', secure: true, httpOnly: true, sameSite: 'lax', hostOnly: true, session: false, expirationDate: 2000000000, ...extra })
@@ -152,4 +152,13 @@ test('a joining machine\'s cookie of unknown age defers to the hub; one changed 
   const changed = await planSync(base(keys, { remote: a.push, scan: scanOf(ck('sid', 'newer')), seen: { [k]: 4000 }, now: 5000, rev: 2 }))
   assert.ok(changed.push)
   assert.equal(changed.toSet.length, 0)
+})
+
+test('the toolbar badge shows an alert only for states that need attention', () => {
+  for (const state of ['offline', 'unauthorised', 'wrong-key', 'hub-error']) {
+    assert.equal(badgeText(state), '!')
+  }
+  for (const state of ['ok', 'not-set-up', 'conflict', 'rollback', 'corrupt', 'error', undefined]) {
+    assert.equal(badgeText(state), '')
+  }
 })
