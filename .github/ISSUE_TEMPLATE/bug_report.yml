@@ -1,0 +1,47 @@
+name: Bug report
+description: Cookies do not sync, pairing fails, or the hub misbehaves
+labels: [bug]
+body:
+  - type: input
+    id: os
+    attributes:
+      label: Operating system
+      description: Of the machine with the browser, and of the hub if it is a different one.
+      placeholder: Windows 11 24H2, Ubuntu 24.04
+    validations:
+      required: true
+  - type: input
+    id: chrome
+    attributes:
+      label: Chrome version
+      description: Open chrome://version
+      placeholder: "130.0.6723.92"
+    validations:
+      required: true
+  - type: input
+    id: extension
+    attributes:
+      label: Extension version
+      description: Shown in chrome://extensions.
+    validations:
+      required: true
+  - type: input
+    id: hub
+    attributes:
+      label: Hub setup
+      description: Node version and how the hub is reached, for example "Node 22, Tailscale Serve".
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened, and what did you expect?
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: The site and what you did. Do not paste your key, pairing codes, tokens or cookie values.
+    validations:
+      required: true

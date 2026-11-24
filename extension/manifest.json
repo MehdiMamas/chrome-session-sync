@@ -1,0 +1,12 @@
+{
+  "manifest_version": 3,
+  "name": "Chrome Session Sync",
+  "version": "1.0.0",
+  "description": "Keeps chosen sites' sign-ins in step between your own machines, encrypted before it leaves the browser.",
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArYGKx8tzB2D3Y7swp5nJuWKAkPXkAkd84d1KukRQ05vWvC+OYYogcFwgbv9CSRbpxD6vdjI2NN+GEMmPpInJUb9WakENhDYx3o7HVJevTbdpMY2GuBBBX8Ag7DhxStaXjKejeU7Zz0dd8gUAI1Sk7gxkuPXuvnXRByqGiBY+Jo4HMFtx/qYxmg2M2mPc/35sKQOIgXfPV58mSwiWj3DSjTVwkdeR4BFKvZjI6WwjVJEeQ7CG1hBIETtJkQWRqPsRO2ktDLrMuUp8dPdpeY0vqfBqAkDsVoLATLaVfDrUzk+gL+Dok6JvS2OeYwcUuYzljLQ3yNUq2wucUnalSVGhpQIDAQAB",
+  "icons": { "16": "icons/icon16.png", "32": "icons/icon32.png", "48": "icons/icon48.png", "128": "icons/icon128.png" },
+  "permissions": ["cookies", "alarms", "storage"],
+  "optional_host_permissions": ["https://*/*", "http://*/*"],
+  "background": { "service_worker": "background.js", "type": "module" },
+  "options_ui": { "page": "options.html", "open_in_tab": true }
+}

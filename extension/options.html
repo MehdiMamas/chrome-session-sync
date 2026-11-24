@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chrome Session Sync</title>
+<style>
+:root { --bg: #fff; --fg: #1a1d21; --muted: #5b6470; --line: #d5dae0; --accent: #1a5fd0; --bad: #b3261e; --ok: #1d7a3a }
+@media (prefers-color-scheme: dark) { :root { --bg: #14171a; --fg: #e8eaed; --muted: #9aa3ad; --line: #333a42; --accent: #7aa7f5; --bad: #f2877f; --ok: #6fcf8a } }
+body { margin: 0; padding: 16px; background: var(--bg); color: var(--fg); font: 15px/1.45 system-ui, sans-serif }
+main { max-width: 640px; margin: 0 auto }
+h1 { font-size: 20px; margin: 0 0 4px }
+h2 { font-size: 15px; margin: 24px 0 6px }
+p, li { color: var(--muted); margin: 4px 0 }
+label { display: block; font-weight: 600; margin-top: 10px }
+.row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-top: 6px }
+input { flex: 1 1 220px; min-width: 0; padding: 8px; border: 1px solid var(--line); border-radius: 6px; background: var(--bg); color: var(--fg); font: inherit }
+button { padding: 8px 12px; border: 1px solid var(--line); border-radius: 6px; background: var(--bg); color: var(--fg); font: inherit; cursor: pointer }
+button.primary { background: var(--accent); border-color: var(--accent); color: #fff }
+code { word-break: break-all; user-select: all }
+#msg, #status { margin-top: 8px; min-height: 1.4em }
+.bad { color: var(--bad) } .ok { color: var(--ok) }
+ul { padding-left: 0; list-style: none }
+li { display: flex; gap: 8px; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--line); padding: 6px 0 }
+</style>
+</head>
+<body>
+<main>
+<h1>Chrome Session Sync</h1>
+<p>Keeps the sign-ins of the sites you choose in step between your own machines. Cookies are encrypted here before they leave this browser; the hub only holds ciphertext.</p>
+
+<h2>1. Hub</h2>
+<label for="hub">Hub address</label>
+<div class="row"><input id="hub" autocomplete="off" placeholder="hub.example.ts.net"><button id="saveHub" class="primary">Save</button></div>
+<label for="code">Pairing code</label>
+<div class="row"><input id="code" type="password" autocomplete="off" placeholder="from the hub machine: pair link or code"><button id="pair">Pair</button></div>
+<p id="paired"></p>
+
+<h2>2. Key</h2>
+<p>One random key for all your machines. It is shown once when made: save it in your password manager, then paste it on each other machine. It is kept in this browser as a non-extractable key and never in Chrome sync.</p>
+<div class="row"><button id="newKey">Make a new key</button></div>
+<p id="keyShown"></p>
+<label for="key">Paste an existing key</label>
+<div class="row"><input id="key" type="password" autocomplete="off" spellcheck="false"><button id="saveKey">Use this key</button></div>
+<p id="hasKey"></p>
+
+<h2>3. Sites</h2>
+<p>Sites are shared across machines through the encrypted blob; each machine still needs one click to allow them. Cookies a site meant to end when the browser closes are written with an expiry of <span id="days">7</span> days, renewed at every sync.</p>
+<div class="row"><input id="site" autocomplete="off" placeholder="github.com"><button id="addSite">Add site</button></div>
+<ul id="sites"></ul>
+
+<h2>Status</h2>
+<div id="status"></div>
+<div class="row"><button id="sync">Sync now</button><button id="reset">Reset the hub copy</button></div>
+<p>Reset replaces the blob on the hub with what this machine has. Use it after a lost key.</p>
+<div id="msg" role="status" aria-live="polite"></div>
+</main>
+<script type="module" src="options.js"></script>
+</body>
+</html>

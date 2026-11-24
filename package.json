@@ -1,0 +1,9 @@
+{
+  "name": "chrome-session-sync",
+  "description": "Keeps the sign-in cookies of sites you choose in step between your own machines, encrypted in the browser.",
+  "license": "GPL-3.0-only",
+  "repository": { "type": "git", "url": "git+https://github.com/MehdiMamas/chrome-session-sync.git" },
+  "private": true,
+  "type": "module",
+  "scripts": { "test": "node --test test/*.test.mjs", "e2e": "node scripts/e2e.mjs" }
+}

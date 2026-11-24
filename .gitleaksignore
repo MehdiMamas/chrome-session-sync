@@ -1,0 +1,2 @@
+# extension/manifest.json "key" is the extension's RSA public key (it pins the extension id). Public by design, not a secret.
+extension/manifest.json:generic-api-key:6

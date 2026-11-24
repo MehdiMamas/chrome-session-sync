@@ -1,0 +1,30 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node --test test/*.test.mjs
+      - name: Install Chrome for Testing
+        run: |
+          out=$(npx --yes @puppeteer/browsers install chrome@stable --path "$RUNNER_TEMP/chrome")
+          echo "CHROME=${out#* }" >> "$GITHUB_ENV"
+      - run: node scripts/e2e.mjs
