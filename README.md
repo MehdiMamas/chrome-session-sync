@@ -105,14 +105,14 @@ It listens on 127.0.0.1:8787. Put it behind HTTPS: the extension talks to the hu
 
 ## Roadmap
 
-- Giver and receiver roles per device, so a machine can only send or only receive.
-- Several saved logins per site with one-click switching, like a password manager for cookies.
-- Signed release zips, so you do not need to clone the repo to load the extension.
-- A container image for the hub.
+- Giver and receiver roles per device, so a machine can only send or only receive. ([#1](https://github.com/MehdiMamas/chrome-session-sync/issues/1))
+- Several saved logins per site with one-click switching, like a password manager for cookies. ([#2](https://github.com/MehdiMamas/chrome-session-sync/issues/2))
+- Signed release zips, so you do not need to clone the repo to load the extension. ([#3](https://github.com/MehdiMamas/chrome-session-sync/issues/3))
+- A container image for the hub. ([#4](https://github.com/MehdiMamas/chrome-session-sync/issues/4))
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md). Report security problems as described in [SECURITY.md](SECURITY.md). This project follows the [Code of Conduct](CODE_OF_CONDUCT.md).
+Issues labelled [good first issue](https://github.com/MehdiMamas/chrome-session-sync/labels/good%20first%20issue) are small and self-contained. See [CONTRIBUTING.md](CONTRIBUTING.md). Report security problems as described in [SECURITY.md](SECURITY.md). This project follows the [Code of Conduct](CODE_OF_CONDUCT.md).
 
 ## License
 
