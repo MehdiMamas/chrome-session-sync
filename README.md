@@ -89,6 +89,20 @@ node server/standalone.mjs --dir ~/.local/share/chrome-session-sync
 
 It listens on 127.0.0.1:8787. Put it behind HTTPS: the extension talks to the hub only over https. [Tailscale Serve](https://tailscale.com/kb/1242/tailscale-serve) is an easy way, for example `tailscale serve --bg --https=8445 http://127.0.0.1:8787`, which gives you an address like `https://hub.example.ts.net:8445` that only your own devices can reach.
 
+Or run the hub as a container. The image keeps its state in `/data`, so mount a volume there:
+
+```bash
+docker build -t chrome-session-sync .
+docker run -d --name chrome-session-sync \
+  -p 127.0.0.1:8787:8787 \
+  -v chrome-session-sync-data:/data \
+  chrome-session-sync
+docker exec chrome-session-sync node server/standalone.mjs --dir /data --pair
+```
+
+The pairing command prints the one-time code as usual. Tagged releases are also published to GHCR as
+`ghcr.io/mehdimamas/chrome-session-sync:<tag>`.
+
 ### 2. Load the extension
 
 1. Open `chrome://extensions` and turn on Developer mode.
