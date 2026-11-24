@@ -1,0 +1,26 @@
+name: Release extension
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Zip and publish the extension
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build the zip and checksum
+        run: |
+          (cd extension && zip -r "../chrome-session-sync-${GITHUB_REF_NAME}.zip" .)
+          sha256sum "chrome-session-sync-${GITHUB_REF_NAME}.zip" > "chrome-session-sync-${GITHUB_REF_NAME}.zip.sha256"
+
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            chrome-session-sync-*.zip
+            chrome-session-sync-*.zip.sha256
