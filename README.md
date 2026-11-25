@@ -91,14 +91,11 @@ It listens on 127.0.0.1:8787. Put it behind HTTPS: the extension talks to the hu
 
 ### 2. Load the extension
 
-Download the zip for the latest release from
-[Releases](https://github.com/MehdiMamas/chrome-session-sync/releases), unzip it, then:
-
 1. Open `chrome://extensions` and turn on Developer mode.
-2. Click Load unpacked and choose the unzipped folder (or `extension/` in a clone).
+2. Click Load unpacked and choose the `extension/` folder of your clone.
 3. Do this on every machine. Branded Chrome has no other way to load it yet.
 
-Each release also publishes a `.sha256` file next to the zip.
+Once a release has been published you do not need a clone for this step: download `chrome-session-sync-<tag>.zip` and its `.sha256` file from [Releases](https://github.com/MehdiMamas/chrome-session-sync/releases), check the download with `sha256sum -c chrome-session-sync-<tag>.zip.sha256`, unzip it, and choose the unzipped folder in step 2.
 
 ### 3. Pair and choose sites
 
