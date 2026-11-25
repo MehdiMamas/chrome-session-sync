@@ -79,4 +79,5 @@ $('reset').onclick = async () => {
   await send({ type: 'reset' })
   render()
 }
+$('version').textContent = `Chrome Session Sync ${chrome.runtime.getManifest().version}`
 render()

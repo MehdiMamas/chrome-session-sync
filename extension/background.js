@@ -1,6 +1,6 @@
 // Chrome Session Sync service worker. Listeners and alarms are registered at the top level; timers use chrome.alarms, never setTimeout
 // (the worker is killed after 30 s idle). The pure logic is in core.mjs. The encryption keys are CryptoKeys in IndexedDB, never chrome.storage.sync.
-import { activeSites, changeKind, cookieKey, deriveKeys, generateKeyString, isEcho, normalizeHubUrl, normalizeSite, parseKeyString, planSync, SESSION_DAYS } from './core.mjs'
+import { activeSites, badgeText, changeKind, cookieKey, deriveKeys, generateKeyString, isEcho, normalizeHubUrl, normalizeSite, parseKeyString, planSync, SESSION_DAYS } from './core.mjs'
 
 const PATH = '/api/hub/session-sync'
 const get = async keys => chrome.storage.local.get(keys)
@@ -28,7 +28,15 @@ const saveKeys = keys => idbRun('readwrite', s => s.put(keys, 'keys'))
 let chain = Promise.resolve()
 const serial = fn => { const p = chain.then(fn, fn); chain = p.catch(() => {}); return p }
 
-const status = async (state, detail = '') => set({ status: { state, detail, at: Date.now() } })
+const paintBadge = async state => {
+  await chrome.action.setBadgeText({ text: badgeText(state) })
+  if (badgeText(state)) await chrome.action.setBadgeBackgroundColor({ color: '#c62828' })
+}
+const status = async (state, detail = '') => {
+  await set({ status: { state, detail, at: Date.now() } })
+  await paintBadge(state)
+}
+const refreshBadge = async () => paintBadge((await get('status')).status?.state)
 
 async function grantedSites(records) {
   const origins = (await chrome.permissions.getAll()).origins ?? []
@@ -104,9 +112,10 @@ chrome.cookies.onChanged.addListener(info => serial(async () => {
   schedulePush()
 }))
 chrome.alarms.onAlarm.addListener(a => { if (a.name === 'push' || a.name === 'pull') runSync() })
-chrome.runtime.onInstalled.addListener(ensurePull)
-chrome.runtime.onStartup.addListener(ensurePull)
+chrome.runtime.onInstalled.addListener(() => { ensurePull(); refreshBadge() })
+chrome.runtime.onStartup.addListener(() => { ensurePull(); refreshBadge() })
 ensurePull()
+refreshBadge()
 
 const handlers = {
   async 'get-state'() {
@@ -119,7 +128,7 @@ const handlers = {
   async 'set-test-mode'(m) { await set({ testMode: Boolean(m.on) }); return { ok: true } },
   async 'save-hub'(m) {
     const hubUrl = normalizeHubUrl(m.hubUrl, (await get('testMode')).testMode)
-    if (!hubUrl) return { error: 'That is not a usable address. Use the hub\'s Tailscale name, for example hub.example.ts.net.' }
+    if (!hubUrl) return { error: 'That is not a usable address. Use the hub\'s HTTPS address, for example hub.example.ts.net.' }
     await set({ hubUrl })
 
     return { hubUrl }
