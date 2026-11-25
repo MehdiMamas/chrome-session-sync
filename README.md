@@ -89,6 +89,8 @@ node server/standalone.mjs --dir ~/.local/share/chrome-session-sync
 
 It listens on 127.0.0.1:8787. Put it behind HTTPS: the extension talks to the hub only over https. [Tailscale Serve](https://tailscale.com/kb/1242/tailscale-serve) is an easy way, for example `tailscale serve --bg --https=8445 http://127.0.0.1:8787`, which gives you an address like `https://hub.example.ts.net:8445` that only your own devices can reach.
 
+On Linux you can run the hub as a systemd user service so it starts with your session: see [docs/systemd.md](docs/systemd.md).
+
 ### 2. Load the extension
 
 1. Open `chrome://extensions` and turn on Developer mode.
