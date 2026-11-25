@@ -91,6 +91,20 @@ It listens on 127.0.0.1:8787. Put it behind HTTPS: the extension talks to the hu
 
 On Linux you can run the hub as a systemd user service so it starts with your session: see [docs/systemd.md](docs/systemd.md).
 
+Or run the hub as a container. The image keeps its state in `/data`, so mount a volume there:
+
+```bash
+docker build -t chrome-session-sync .
+docker run -d --name chrome-session-sync \
+  -p 127.0.0.1:8787:8787 \
+  -v chrome-session-sync-data:/data \
+  chrome-session-sync
+docker exec chrome-session-sync node server/standalone.mjs --dir /data --pair
+```
+
+The pairing command prints the one-time code as usual. From the first tagged release on, the image is also published to GHCR as
+`ghcr.io/mehdimamas/chrome-session-sync:<tag>`.
+
 ### 2. Load the extension
 
 1. Open `chrome://extensions` and turn on Developer mode.
